@@ -1,0 +1,45 @@
+# Environment (keep .env.example tracked)
+.env
+.env.local
+.env.*.local
+
+# Go build / test
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+/bin/
+/dist/
+
+# Go dependency vendor (if used)
+vendor/
+
+# Node / Vite (web/)
+web/node_modules/
+web/dist/
+web/.vite/
+
+# Runtime state (paper/live agent persistence)
+data/state.json
+
+# Wallet / key material (never commit)
+wallet.json
+*.keypair.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+*.swp
+*.swo
+*~
+
+# Debug / coverage
+coverage.out
+coverage.html
+*.coverprofile

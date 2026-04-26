@@ -1,0 +1,28 @@
+# Git and IDE
+.git
+.gitignore
+.cursor
+.vscode
+*.swp
+*~
+
+# Env and secrets (mount at runtime)
+.env
+.env.*
+!.env.example
+
+# Build artifacts
+web/dist
+*.exe
+
+# Test and coverage
+*_test.go
+coverage.out
+*.test
+
+# Docs and plans (optional to exclude)
+*.plan.md
+.DS_Store
+
+# Node (we copy only what we need; node_modules is rebuilt in container)
+web/node_modules

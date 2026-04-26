@@ -1,0 +1,41 @@
+# TradeBot: API + UI + Redis.
+# 1. cp .env.example .env and set SOLANA_RPC_URL (required), REDIS_* (optional), WALLET_* (optional for live).
+# 2. For WALLET_KEYPAIR_PATH, mount the keypair file and set the path (see solbot volumes comment).
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  solbot:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8080}:8080"
+    env_file: .env
+    environment:
+      PORT: "8080"
+      REDIS_URL: "redis://redis:6379/0"
+      STATIC_DIR: "/app/web"
+    depends_on:
+      redis:
+        condition: service_healthy
+    # Optional: mount keypair file for live mode (WALLET_KEYPAIR_PATH=/app/wallet.json in .env)
+    # volumes:
+    #   - ./wallet.json:/app/wallet.json:ro
+    # Uncomment to use file state instead of Redis (remove REDIS_URL from env):
+    # environment:
+    #   - REDIS_URL=
+    # volumes:
+    #   - ./data:/app/data
+
+volumes:
+  redis_data: {}
